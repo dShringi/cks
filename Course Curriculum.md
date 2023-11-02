@@ -11,7 +11,7 @@ Course Curriculum
     Restrict access to Kubernetes API
     RBAC to minimize exposure
     disable default SA, minimize permissions of new SA
-    Update Kubernetes frequently 
+    Update Kubernetes frequently
 ## 15% - System Hardening
     Minimize host OS footprint
     Minimize IAM roles
