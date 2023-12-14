@@ -46,6 +46,78 @@ KodeKloud
 28. Docker - Securing the Daemon
 29. Ciphers and the Kubernetes Control Plane
 ---
+12. KubeConfig
+```
+    - $HOME/.kube/config
+      --server my-kube-playground:6443 [Clusters]
+      --client-key admin.key [Users]
+      --client-certificate admin.crt [Users]
+      --certificate-authority ca.crt
+    - Clusters / Contexts / Users
+    - kubectl config view
+```
+---
+13. API Groups
+```
+    - Core Group: /api/v1/xxx
+    - Named Group: /apis/xxx
+```
+---
+14. Authorization
+```
+    - Node / ABAC / RBAC / Webhook
+    - --authorization-modes
+```
+---
+15. RBAC
+```
+    - kubectl auth can-i create pods -- as dev-user --namespace test
+    - kubectl create role pod-reader --verb=get --resource=pods --resource-name=readablepod --resource-name=anotherpod
+```
+---
+16. CR & CRB
+```
+    - Later
+```
+---
+17. Kubelet Security
+```
+    - kubeadm doesn't deploy kubelets, needs to be done manually
+    - kubelet-config.yaml is used with --config param on kubelet.service
+    - ps -aux | grep kubelet
+    - 10250: full access
+    - 10255: unauthenticated read only access
+    - authentication: 
+        anonymous:
+          enabled: false
+        x509:
+          clientCAFile: /path/to/ca.crt
+    - kube-apiserver.service
+      --kubelet-client-key=xxx
+      --kubelet-client-certificate=xxx
+    - authorization:
+        mode: Webhook
+    - readOnlyPort: 0 [To Disable][Exposes metrics without auth]
+```
+---
+18. Kubelet Proxy & Port Forward
+```
+    - alternative to usign kubectl -> curl using proxy / port forward
+    - curl requires authentication which can be configured using `kubectl proxy`
+    - kubectl port-forward service/nginx 28080:80 -> curl localhost:28080
+```
+---
+19. Kubernetes Dashboard
+```
+    - run kubectl proxy from local machine to access the kubernetes dashboard host machine
+    - if the network is secured, we can use Nodeport and expose kubernetes dashboard
+```
+20. Securing Kubernetes Dashboard
+```
+    - Auth mechanism: Token & Kubeconfig
+    - Create SA, Role and RB for the user and use the SA secret token to authenticate via token 
+```
+---
 21. Verify Platform Binaries
 ```
     - shasum -a 512 kubernetes.tar.gz [Mac]
