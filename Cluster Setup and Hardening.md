@@ -46,6 +46,64 @@ KodeKloud
 28. Docker - Securing the Daemon
 29. Ciphers and the Kubernetes Control Plane
 ---
+1. CIS benchmarks
+```
+   - Center for Internet Security
+   - Best practices defined for security checks 
+   - https://www.cisecurity.org/benchmark/kubernetes
+```
+---
+2. Kube bench
+```
+   - curl -L https://github.com/aquasecurity/kube-bench/releases/download/v0.4.0/kube-bench_0.4.0_linux_amd64.tar.gz -o kube-bench_0.4.0_linux_amd64.tar.gz
+   - tar -xvf kube-bench_0.4.0_linux_amd64.tar.gz
+   - ./kube-bench --config-dir <path>/cfg --config <path>/cfg/config.yaml
+```
+---
+3. Kubernetes Security Primitives
+```
+    - Can be ignored
+```
+---
+4. Authentication
+```
+    - kube-apiserver authenticates users
+    - Basic auth using csv file [static file]
+    - Setup the volume mount and use --basic-auth-file=<filename>
+    - Setup Role and Rolebindings for the users
+    - curl -v -k https://localhost:6443/api/v1/pods -u "user1:password123"
+```
+---
+5. Serviceaccounts
+```
+    - Can be ignored
+```
+---
+6. TLS Basics / Kubernetes / Certificate Creation
+```
+    - Symmetric Encryption is susceptible to man in the middle attack as key is shared with data
+    - ssh-keygen -> id_rsa [Private Key] & id_rsa.pub [Public Lock]
+    - openssl genrsa -out my-bank.key [Generates key]
+    - openssl rsa -in my-bank.key -pubout > mybank.pem [Generates lock]
+    - openssl req -new -key my-bank.key -out my-bank.csr -subj "/C=US/ST=CA/O=MyOrg, Inc./CN=mydomain.com" [Generate CSR]
+    - openssl x509 -req -in ca.csr -signkey ca.key -out ca.crt [Signing CA certificate]
+    - openssl x509 -req -in my-bank.csr -CA ca.crt -CAkey ca.key -out my-bank.crt [Signing CSR]
+    - openssl x509 -in <cert file name> -text [Print Certificate]
+    - Important: TLS in Kubernetes - Certificate Creation-2
+```
+---
+11. Certificate API
+```
+    - Controller manager is responsible for certificate signing
+    - --cluster-signing-cert-file=<>
+    - --cluster-signing-key-file=<>
+    - Create CertificateSigningRequest Object -> kubectl Review / Approve -> Share Certificate
+    - base64 encode content of .csr file and put under request section: base64 -w 0
+    - kubectl get csr -> kubectl approve / reject certificate <name>
+    - kubectl get csr <name> -o yaml -> base64 --decode status.certificate data
+    - kubectl certificate approve <name>
+```
+---
 12. KubeConfig
 ```
     - $HOME/.kube/config
@@ -77,13 +135,15 @@ KodeKloud
 ---
 16. CR & CRB
 ```
-    - Later
+    - k create clusterrole storage-admin --verb="*" --resource="persistentvolumes" --verb="*" --resource=storageclasses.storage.k8s.io
+    - k create clusterrolebinding michelle-storage-admin --clusterrole=storage-admin --user=michelle
 ```
 ---
 17. Kubelet Security
 ```
     - kubeadm doesn't deploy kubelets, needs to be done manually
     - kubelet-config.yaml is used with --config param on kubelet.service
+    - in config file, parameters are camel case
     - ps -aux | grep kubelet
     - 10250: full access
     - 10255: unauthenticated read only access
@@ -98,6 +158,7 @@ KodeKloud
     - authorization:
         mode: Webhook
     - readOnlyPort: 0 [To Disable][Exposes metrics without auth]
+    - Important one!
 ```
 ---
 18. Kubelet Proxy & Port Forward
@@ -105,6 +166,7 @@ KodeKloud
     - alternative to usign kubectl -> curl using proxy / port forward
     - curl requires authentication which can be configured using `kubectl proxy`
     - kubectl port-forward service/nginx 28080:80 -> curl localhost:28080
+    - kubectl proxy --port 8001 & [To start proxy]
 ```
 ---
 19. Kubernetes Dashboard
