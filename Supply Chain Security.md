@@ -8,7 +8,6 @@
         imagePullSecrets:
         - name: regcred
 ```
----
 ## 2. Whitelist allowed image registries
 ```
     - Admission Controllers
@@ -25,18 +24,17 @@
     - --enable-admission-plugins=ImagePolicyWebhook [kube-apiserver.yaml]
       --admission-control-config-file=/etc/kubernetes/admission-config.yaml
 ```
----
+
 ## 3. Static Analysis
 ```
     - kubesec scan pod.yaml
     - curl -sSX POST --data-binary @"pod.yaml" https://v2.kubesec.io/scan
     - kubesec http 8080 & [local kubesec server]
 ```
----
+
 ## 4. Scan images for known vulnerabilities
 ```
     - trivy image nginx:1.18.0
     - trivy image --severity CRITICAL,HIGH nginx:1.18.0
     - trivy image --input archive.tar
 ```
----
