@@ -61,6 +61,7 @@
         secretName: app-secret
     - ls /opt/app-secret-volumes -> DB_HOST DB_Password DB_User
     - cat /opt/app-secret-volumes/DB_Password -> password
+    - https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/
 ```
 ## 5. Encrypting Secret Data at Rest
 ```

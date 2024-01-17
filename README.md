@@ -61,3 +61,22 @@ automountServiceAccountToken -- https://kubernetes.io/docs/tasks/configure-pod-c
 Pod Volumes -- https://kubernetes.io/docs/concepts/storage/volumes/  
 PV PVC -- https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/  
 Ingress -- https://kubernetes.io/docs/concepts/services-networking/ingress/  
+
+## vi Shortcuts
+
+Go to start of line - ^  
+Go to end of line - $
+
+## Kubernetes Components
+
+### Control Plane Components
+
+kube-apiserver  
+kube-controller-manager  
+kube-scheduler  
+etcd  
+
+### Node Components
+
+kubelet  
+kube-proxy  

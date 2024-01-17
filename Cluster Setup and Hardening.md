@@ -84,7 +84,7 @@ KodeKloud
     - Symmetric Encryption is susceptible to man in the middle attack as key is shared with data
     - ssh-keygen -> id_rsa [Private Key] & id_rsa.pub [Public Lock]
     - openssl genrsa -out my-bank.key [Generates key]
-    - openssl rsa -in my-bank.key -pubout > mybank.pem [Generates lock]
+    - openssl rsa -in my-bank.key -pubout > mybank.pem [Generates public key / lock]
     - openssl req -new -key my-bank.key -out my-bank.csr -subj "/C=US/ST=CA/O=MyOrg, Inc./CN=mydomain.com" [Generate CSR]
     - openssl x509 -req -in ca.csr -signkey ca.key -out ca.crt [Signing CA certificate]
     - openssl x509 -req -in my-bank.csr -CA ca.crt -CAkey ca.key -out my-bank.crt [Signing CSR]
@@ -308,11 +308,18 @@ spec:
 
 29. Ciphers and the Kubernetes Control Plane
 ```
-    - Control plane components has two options arguments
-      * --tls-min-version: sets the minimum version of TLS
+    - All the control plane components has two optional arguments
+      * --tls-min-version: sets the minimum version of TLS e.g. VersionTLS10 [default], VersionTLS13
       * --tls-cipher-suites: sets a comma-separated list of cipher suites
     - etcd cli arg to set cipher suites
-      * --cipher-suites: sets a comma-separated list of cipher suites
+      * --cipher-suites: sets a comma-separated list of cipher suites  
+
+    - Q. Restrict communication between etcd and api server to the cipher TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 and also restrict the api server minimum TLS version to TLS 1.2
+      - Edit the API server manifest and add the following two arguments
+          --tls-min-version=VersionTLS12
+          --tls-cipher-suites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+      - Edit the etcd manifest and add the following argument
+          --cipher-suites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
 ```
 ---
 
