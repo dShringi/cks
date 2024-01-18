@@ -6,7 +6,7 @@
 ---
 ## 1. Admission Controllers
 ```
-    - kube-apiserver -h | grep enable-admission-plugins [enabled admission controllers]
+    - kubectl exec -n kube-system kube-apiserver-controlplane -it -- kube-apiserver -h | grep enable-admission-plugins [check enabled admission controllers]
     - --enable-admission-plugins=NodeRestriction,NamespaceAutoProvision
     - --disable-admission-plugins=DefaultStorageClass
 ```
@@ -20,11 +20,19 @@
       }
     - Deploy Webhook Server [custom admission controller]
 ```
-## 3. Open Policy Agent
+## 3. Pod Security Admission & Pod Security Standards
 ```
-    - curl -L -o opa <github-path>/opa_linux_amd64
-    - chmod 755 ./opa
-    - ./opa run -s
+    - kubectl label ns payroll pod-security.kubernetes.io/<mode>=<security standard>
+    - mode: enforce / audit / warn
+    - profile: Privileged / Baseline / Restricted
+    - --admission-control-config-file configuration file path for the admission configuration resource in the API server
+```
+## 4. Open Policy Agent
+```
+    - Run OPA
+      curl -L -o opa <github-path>/opa_linux_amd64
+      chmod 755 ./opa
+      ./opa run -s
     - curl -X PUT --data-binary @example.rego http://localhost:8181/v1/policies/example1 [put the policy in opa]
     - curl http://localhost:8181/v1/policies [view policies]
     - apiVersion: admissionregistration.k8s.io/v1beta1
@@ -44,7 +52,13 @@
               namespace: opa
               name: opa
 ```
-## 4. Kubernetes Secrets
+## 5. OPA Gatekeeper
+```
+    - https://open-policy-agent.github.io/gatekeeper/website/docs/howto
+    - https://open-policy-agent.github.io/gatekeeper-library/website/
+    - https://open-policy-agent.github.io/gatekeeper/website/docs/install/
+```
+## 6. Kubernetes Secrets
 ```
     - env:
       - name: DB_Password
@@ -63,7 +77,7 @@
     - cat /opt/app-secret-volumes/DB_Password -> password
     - https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/
 ```
-## 5. Encrypting Secret Data at Rest
+## 7. Encrypting Secret Data at Rest
 ```
     - ps -aux | grep kube-api | grep "encryption-provider-config" [check if encryption is enabled]
     - apiVersion: apiserver.config.k8s.io/v1
@@ -83,7 +97,7 @@
     - add volume and volume-mounts https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/#use-the-new-encryption-configuration-file
     - k get secrets --all-namespaces -o json | k replace -f - [ensure all secrets are encrypted]
 ```
-## 6. Container Sandboxing [gVisor / Kata Containers / Container Runtime]
+## 8. Container Sandboxing [gVisor / Kata Containers / Container Runtime]
 ```
     - seccomp / apparmor
     - provides layer of isolation between container and kernel
@@ -108,7 +122,7 @@
         container:
         - image: nginx
 ```
-## 7. Implement pod to pod encyrption by use of mTLS
+## 9. Implement pod to pod encyrption by use of mTLS
 ```
     - Istio and Linkerd
 ```
