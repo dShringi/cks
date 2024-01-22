@@ -36,6 +36,9 @@
 
 ## 3. Static Analysis
 ```
+    - wget <github kubsec release gz>
+      tar -xvf <gz>
+      mv kubesec /usr/bin
     - kubesec scan pod.yaml
     - curl -sSX POST --data-binary @"pod.yaml" https://v2.kubesec.io/scan
     - kubesec http 8080 & [local kubesec server]
@@ -43,7 +46,8 @@
 
 ## 4. Scan images for known vulnerabilities
 ```
-    - trivy image nginx:1.18.0
+    - trivy image --format json nginx:1.18.0
     - trivy image --severity CRITICAL,HIGH nginx:1.18.0
     - trivy image --input archive.tar
+    - crictl pull <image-name>
 ```
