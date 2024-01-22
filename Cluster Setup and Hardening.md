@@ -57,7 +57,7 @@ KodeKloud
 ```
    - curl -L https://github.com/aquasecurity/kube-bench/releases/download/v0.4.0/kube-bench_0.4.0_linux_amd64.tar.gz -o kube-bench_0.4.0_linux_amd64.tar.gz
    - tar -xvf kube-bench_0.4.0_linux_amd64.tar.gz
-   - ./kube-bench --config-dir <path>/cfg --config <path>/cfg/config.yaml
+   - ./kube-bench --config-dir `pwd`/cfg --config `pwd`/cfg/config.yaml
 ```
 ---
 3. Kubernetes Security Primitives
@@ -76,7 +76,7 @@ KodeKloud
 ---
 5. Serviceaccounts
 ```
-    - Can be ignored
+    - k create token <service-account-name>
 ```
 ---
 6. TLS Basics / Kubernetes / Certificate Creation
@@ -99,7 +99,7 @@ KodeKloud
     - --cluster-signing-key-file=<>
     - Create CertificateSigningRequest Object -> kubectl Review / Approve -> Share Certificate
     - base64 encode content of .csr file and put under request section: base64 -w 0
-    - kubectl get csr -> kubectl approve / reject certificate <name>
+    - kubectl get csr -> kubectl approve / deny certificate <name>
     - kubectl get csr <name> -o yaml -> base64 --decode status.certificate data
     - kubectl certificate approve <name>
 ```
@@ -113,6 +113,7 @@ KodeKloud
       --certificate-authority ca.crt
     - Clusters / Contexts / Users
     - kubectl config view
+    - kubectl use-context --kubeconfig=/root/my-kube-config
 ```
 ---
 13. API Groups
@@ -165,7 +166,7 @@ KodeKloud
 ```
     - alternative to usign kubectl -> curl using proxy / port forward
     - curl requires authentication which can be configured using `kubectl proxy`
-    - kubectl port-forward service/nginx 28080:80 -> curl localhost:28080
+    - kubectl port-forward service/nginx 28080[host]:80[pod] -> curl localhost:28080
     - kubectl proxy --port 8001 & [To start proxy]
 ```
 ---
@@ -198,6 +199,8 @@ KodeKloud
     - Upgrade kubeadm
     - Upgrade controlplane nodes
     - Upgrade worker nodes
+    - systemctl daemon-reload
+    - systemctl restart kubelet
 ```
 ---
 24. Network Policy

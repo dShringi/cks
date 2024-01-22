@@ -24,6 +24,8 @@
    - ssh <user>@<hostname or IP>
    - adduser jim [Create user]
    - ssh-copy-id -i ~/.ssh/id_rsa.pub jim@node01 [From host machine to node01]
+   - sudoers: /etc/sudoers add user
+   - password-less sudo: jim  ALL=(ALL) NOPASSWD:ALL
    - usermod rob -G admin [add user to admin group]
    - edit /etc/ssh/sshd_config for PermitRootLogin / PasswordAuthentication
    - service sshd restart
@@ -39,6 +41,7 @@
 4. ufw Firewall
 ```
    - ufw allow 1000:2000/tcp
+   - ufw allow from 134.12.23.2/24 to any port 9090 proto tcp
 ```
 ---
 5. Linux Syscalls
