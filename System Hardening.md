@@ -8,6 +8,11 @@
 1. Limit Node Access
 2. SSH Hardening and Privilege Escalation
 3. Identify Open Ports & Remove Packages
+4. ufw
+5. Linux Syscalls  
+6. **Seccomp**  
+7. **AppArmour**   
+8. Linux Capabilities
 ---
 1. Limit Node Access
 ```
