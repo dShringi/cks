@@ -29,7 +29,10 @@
         configuration:
           imagePolicy:
             kubeConfigFile: <path-to-kubeconfig-file>
-            defaultAllow: true
+            allowTTL: 50
+            denyTTL: 50
+            retryBackoff: 500
+            defaultAllow: false
     - --enable-admission-plugins=ImagePolicyWebhook [kube-apiserver.yaml]
       --admission-control-config-file=/etc/kubernetes/admission-config.yaml
 ```

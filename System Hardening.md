@@ -73,24 +73,22 @@
 ---
 7. AppArmor
 ```
+   - enforce / complain / unconfined
    - cat /sys/module/apparmor/parameters/enabled
    - cat /sys/kernel/security/apparmor/profiles
+   - aa-status [loaded profiles]
+   - aa-genprof /root/add_data.sh
+   - apparmor_parser /etc/apparmor.d/root.add_data.sh [load profile]
+   - apparmor_parser -R /etc/apparmor.d/root.add_data.sh [disable profile]
+      ln -s /etc/apparmor.d/root.add_data.sh /etc/apparmor.d/disable
+   - annotations:
+       container.apparmor.security.beta.kubernetes.io/<container_name>: localhost/<profile-name>
    - apparmor-deny-write
      profile apparmor-deny-write flags=(attach_disconnected) {
        file,
        # Deny all file writes.
        deny /** w
      }
-   - aa-status [loaded profiles]
-   - enforce / complain / unconfined
-   - apparmor-utils
-   - aa-genprof /root/add_data.sh
-   - cat /etc/apparmor.d/root.add_data.sh [generated profile]
-   - apparmor_parser /etc/apparmor.d/root.add_data.sh [load profile]
-   - apparmor_parser -R /etc/apparmor.d/root.add_data.sh [disable profile]
-      ln -s /etc/apparmor.d/root.add_data.sh /etc/apparmor.d/disable
-   - annotations:
-       container.apparmor.security.beta.kubernetes.io/<container_name>: localhost/<profile-name>
 ```
 ---
 8. Linux Capabilities

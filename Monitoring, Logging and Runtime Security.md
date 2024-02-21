@@ -10,6 +10,7 @@
 ```
     - systemctl status falco
     - journalctl -fu falco
+
     - rules.yaml
       - rule: <Name of Rule>
         desc: <Desc of Rule>
@@ -20,6 +21,7 @@
         items: [bash, zsh, ksh, sh, csh]
       - macro: container
         condition: container.id != host
+
     - /etc/falco/falco.yaml
       rules_file:
       - /etc/falco/falco_rules.yaml
@@ -30,6 +32,7 @@
     - [Hot reload]
       cat /var/run/falco.pid
       kill -1 $(cat /var/run/falco.pid)
+      
     - https://falco.org/docs/getting-started/installation/
       https://github.com/falcosecurity/charts/tree/master/falco
       https://falco.org/docs/rules/supported-fields/
@@ -44,10 +47,10 @@
             privileged: false
         volumeMounts:
         - name: cache-volume
-            mountPath: /var/cache/nginx
+          mountPath: /var/cache/nginx
         volumes:
         - name: cache-volume
-        emptyDir: {}
+          emptyDir: {}
 ```
 ## 3. Use Audit Logs
 ```
@@ -67,17 +70,19 @@
         resources:
           - group: ""
             resources: ["secrets"]
+
     - --audit-log-path=/var/log/audit.log
       --audit-policy-file=/etc/kubernetes/audit-policy.yaml
       --audit-log-maxage=10
       --audit-log-maxbackup=5
       --audit-log-maxsize=100
+
     - name: audit
       hostPath:
         path: /etc/kubernetes/prod-audit.yaml
         type: File
     - name: audit-log
-        hostPath:
+      hostPath:
         path: /var/log/prod-secrets.log
         type: FileOrCreate
     - volumeMounts:
