@@ -112,7 +112,7 @@ KodeKloud
       --client-certificate admin.crt [Users]
       --certificate-authority ca.crt
     - Clusters / Contexts / Users
-    - kubectl config view
+    - kubectl config view --raw
     - kubectl use-context --kubeconfig=/root/my-kube-config
 ```
 ---

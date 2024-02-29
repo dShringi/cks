@@ -9,6 +9,7 @@
     - kubectl exec -n kube-system kube-apiserver-controlplane -it -- kube-apiserver -h | grep enable-admission-plugins [check enabled admission controllers]
     - --enable-admission-plugins=NodeRestriction,NamespaceAutoProvision
     - --disable-admission-plugins=DefaultStorageClass
+    - --admission-control-config-file=/etc/kubernetes/admission-config.yaml
 ```
 ## 2. Validating & Mutating Admission Controllers
 ```
@@ -27,6 +28,11 @@
     - mode: enforce / audit / warn
     - profile: Privileged / Baseline / Restricted
     - --admission-control-config-file configuration file path for the admission configuration resource in the API server
+   - kubectl label --overwrite ns example \
+         pod-security.kubernetes.io/warn=baseline \
+         pod-security.kubernetes.io/warn-version=latest
+     kubectl label --dry-run=server --overwrite ns --all \
+         pod-security.kubernetes.io/enforce=privileged
 ```
 ## 4. Open Policy Agent
 ```
@@ -102,7 +108,6 @@
 ```
     - seccomp / apparmor
     - provides layer of isolation between container and kernel
-    - Sentry + Gofer
     - Kata: nested virtualization
     - runC runs the container [default container runtime]
     - docker run --runtime kata -d nginx [kata]
@@ -122,8 +127,4 @@
         runtimeClassName: gvisor
         container:
         - image: nginx
-```
-## 9. Implement pod to pod encyrption by use of mTLS
-```
-    - Istio and Linkerd
 ```

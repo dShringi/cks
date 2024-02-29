@@ -68,7 +68,6 @@
        type: Localhost
        localhostProfile: profiles/audit.json [ "defaultAction: "SCMP_ACT_LOG" ]
    - dir for the profile: /var/lib/kubelet/seccomp
-   - syscall number: /usr/include/asm/unistd_64.h
 ```
 ---
 7. AppArmor
@@ -83,12 +82,7 @@
       ln -s /etc/apparmor.d/root.add_data.sh /etc/apparmor.d/disable
    - annotations:
        container.apparmor.security.beta.kubernetes.io/<container_name>: localhost/<profile-name>
-   - apparmor-deny-write
-     profile apparmor-deny-write flags=(attach_disconnected) {
-       file,
-       # Deny all file writes.
-       deny /** w
-     }
+   - kubectl exec hello-apparmor -- cat /proc/1/attr/current
 ```
 ---
 8. Linux Capabilities

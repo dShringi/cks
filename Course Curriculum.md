@@ -34,5 +34,4 @@ Course Curriculum
     Perform deep analytical investigation and identification of bad actors within environment
     Ensure immutability of containers at runtime
     Use Audit Logs to monitor access
-
 ---

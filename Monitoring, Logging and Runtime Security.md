@@ -30,14 +30,7 @@
       json_output: false
     - last file overrides the previous file rule
     - [Hot reload]
-      cat /var/run/falco.pid
       kill -1 $(cat /var/run/falco.pid)
-      
-    - https://falco.org/docs/getting-started/installation/
-      https://github.com/falcosecurity/charts/tree/master/falco
-      https://falco.org/docs/rules/supported-fields/
-      https://falco.org/docs/rules/default-macros/
-      https://falco.org/docs/configuration/
 ```
 ## 2. Immutable Infrastructure
 ```

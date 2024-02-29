@@ -19,8 +19,6 @@
 ```
 ## 2. Whitelist allowed image registries
 ```
-    - Admission Controllers
-    - OPA service
     - ImagePolicyWebhook
     - apiVersion: apiserver.cofig.k8s.io/v1
       kind: AdmissionConfiguration
@@ -34,7 +32,7 @@
             retryBackoff: 500
             defaultAllow: false
     - --enable-admission-plugins=ImagePolicyWebhook [kube-apiserver.yaml]
-      --admission-control-config-file=/etc/kubernetes/admission-config.yaml
+    - --admission-control-config-file=/etc/kubernetes/admission-config.yaml
 ```
 
 ## 3. Static Analysis

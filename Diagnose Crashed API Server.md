@@ -46,36 +46,9 @@ Steps to take
 
     **NOTE**: This directory can change name frequently. If you have to repeat the diagnostic process, don't assume it is the same as last time you did this in the same session. Repeat this step from the top.
 
-    Next, `cd` into the given directory
-
     ```
     cd kube-system_kube-apiserver-controlplane_02d13ddeddf8e935ec2407132767aeaa
-    ls -l
-    ```
-
-    You should see
-
-    ```
-    drwxr-xr-x 2 root root 4096 Oct 26 04:29 kube-apiserver
-    ```
-
-    ```
     cd kube-api-server
     ls -l
-    ```
-
-    There will be one or more `.log` files. Examine the content of the most recent log, e.g.
-
-    ```
     cat 1.log
     ```
-
-    The issue should be revealed here.
-
-See all of the above demonstrated live in our [Office Hours with Community session](https://us02web.zoom.us/rec/share/9arsF4_YOEli7xKa9DsXpqrciqz2drNHbyzX4LoFlP3r1o0ieQ_K4SnamLZOU4Q.Z-LKaVLEbNhKRocT) from March 2023.
-
-You can use one of our Kubernetes playgrounds, or any Kubernetes lab (just ignore the questions).
-
-Use [this repo](https://github.com/kodekloudhub/cka-debugging-api-server) to get some scenarios to practice with. This is the repo used in the above video.
-
-[Return to main FAQ](../README.md)
