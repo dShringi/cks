@@ -297,7 +297,6 @@ spec:
     --tlscert=server-cert.pem \
     --tlskey=server-key.pem \
     -H=0.0.0.0:2376
-```
     - Daemon modes
       * tlsverify, tlscacert, tlscert, tlskey set: Authenticate clients
       * tls, tlscert, tlskey: Do not authenticate clients
@@ -307,8 +306,8 @@ spec:
       * tls, tlscert, tlskey: Authenticate with client certificate, do not authenticate server based on given CA
       * tlsverify, tlscacert, tlscert, tlskey: Authenticate with client certificate and authenticate server based on given CA
     - https://docs.docker.com/engine/security/protect-access/#other-modes
+```
 ---
-
 29. Ciphers and the Kubernetes Control Plane
 ```
     - All the control plane components has two optional arguments

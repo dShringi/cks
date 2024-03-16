@@ -7,9 +7,6 @@
 ---
 ## 1. Image Security
 ```
-    - image: docker.io/library/nginx [registry/user or account/image or repository]
-    - docker login private-registry.io
-    - docker run private-registry.io/apps/internal-app
     - kubectl create secret docker-registry regcred \
       --docker-server=<> --docker-username=<> \
       --docker-password=<> --docker-email=<>

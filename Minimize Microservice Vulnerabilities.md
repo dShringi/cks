@@ -21,7 +21,6 @@
       }
     - Deploy Webhook Server [custom admission controller]
 ```
-
 ## 3. Pod Security Admission & Pod Security Standards
 ```
     - kubectl label ns payroll pod-security.kubernetes.io/<mode>=<security standard>
