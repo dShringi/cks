@@ -62,7 +62,8 @@ KodeKloud
 ---
 3. Kubernetes Security Primitives
 ```
-    - Can be ignored
+    - Securing hosts: Password based auth disabled 
+    - Only ssh key based authentication
 ```
 ---
 4. Authentication
@@ -102,6 +103,10 @@ KodeKloud
     - kubectl get csr -> kubectl approve / deny certificate <name>
     - kubectl get csr <name> -o yaml -> base64 --decode status.certificate data
     - kubectl certificate approve <name>
+    - kubectl config get-contexts
+    - kubectl config set-credentials 60099@internal.users --client-key=60099.key --client-certificate=60099.crt
+    - kubectl config set-context 60099@internal.users --cluster=kubernetes --user=60099@internal.users
+    - kubectl get csr 60099@internal.users -ojsonpath="{.status.certificate}" | base64 -d > 60099.crt
 ```
 ---
 12. KubeConfig
@@ -113,7 +118,9 @@ KodeKloud
       --certificate-authority ca.crt
     - Clusters / Contexts / Users
     - kubectl config view --raw
+    - kubectl config view --kubeconfig=/root/my-kube-config
     - kubectl use-context --kubeconfig=/root/my-kube-config
+    - alias kn='kubectl config set-context --current --namespace'
 ```
 ---
 13. API Groups

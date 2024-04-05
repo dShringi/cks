@@ -1,9 +1,6 @@
-# Certified Kubernetes Security Specialist
-
-## Must go through docs
+# [Certified Kubernetes Security Specialist](https://github.com/cncf/curriculum/blob/master/CKS_Curriculum_%20v1.29.pdf)
 
 ## 10% - Cluster Setup
-    
 [Network Security Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/)  
 CIS benchmark for Security Configuration  
 [Security Control in Ingress Objects](https://kubernetes.io/docs/concepts/services-networking/ingress/)  

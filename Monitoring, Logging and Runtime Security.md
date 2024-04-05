@@ -9,7 +9,9 @@
 ## 1. Falco
 ```
     - systemctl status falco
-    - journalctl -fu falco
+    - journalctl -fu falco -S -60s | tail -1
+    - crictl ps -id <value> [container details]
+    - crictl pods -id <value> [value from previous command]
 
     - rules.yaml
       - rule: <Name of Rule>
