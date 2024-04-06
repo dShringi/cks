@@ -59,11 +59,6 @@ Pod Volumes -- https://kubernetes.io/docs/concepts/storage/volumes/
 PV PVC -- https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/  
 Ingress -- https://kubernetes.io/docs/concepts/services-networking/ingress/  
 
-## vi Shortcuts
-
-Go to start of line - ^  
-Go to end of line - $
-
 ## Kubernetes Components
 
 ### Control Plane Components
@@ -76,4 +71,50 @@ etcd
 ### Node Components
 
 kubelet  
-kube-proxy  
+kube-proxy 
+
+## vi Shortcuts
+
+Go to start of line - ^  
+Go to end of line - $
+
+Mark lines: Esc+V (then arrow keys)
+Copy marked lines: y
+Cut marked lines: d
+Past lines: p or P
+
+To indent multiple lines press Esc and type :set shiftwidth=2. First mark multiple lines using Shift v and the up/down keys. Then to indent the marked lines press > or <. You can then press . to repeat the action.
+
+## Tips & Tricks
+
+    export do="--dry-run=client -o yaml"
+    k run pod1 --image=nginx $do
+
+    export now="--force --grace-period 0"
+    k delete pod1 $now
+
+update the above in ~/.bashrc
+
+    alias kn='kubectl config set-context --current --namespace'
+    kn default        # set default to default
+    kn my-namespace   # set default to my-namespace
+
+Kubectl important commands
+    
+    k get po -o=custom-columns=:.metadata.name,.spec.containers[*].image --no-headers
+    k get po -ojsonpath='{range .items[]}{.metadata.name},{.spec.containers[].image}{"\n"}{end}'
+
+    for image in $(k get po -ocustom-columns=":.spec.containers[*].image"); do trivy image ${image} --severity CRITICAL -q | grep Total; done
+    
+    images=("rancher/alpine-git:1.0.4" "nginx:1.19" "nginx:1.17" "nginx:1.20" "gcr.io/google-containers/nginx" "bitnami/jenkins:2.414.3")
+    for image in ${images[@]}; do trivy image ${image} --severity CRITICAL -q | grep Total; done
+
+Crictl
+
+    crictl ps -id 7a5ea6a080d1 [Get pod id from container id, used in falco where journalctl logs gives container id]
+    CONTAINER ID        IMAGE              NAME        ...         POD ID
+    7a5ea6a080d1b       6f715d38cfe0e      nginx       ...         7a864406b9794
+
+    crictl pods -id 7a864406b9794
+    POD ID              ...          NAME                             NAMESPACE        ...
+    7a864406b9794       ...          webapi-6cfddcd6f4-ftxg4          team-blue        ...
