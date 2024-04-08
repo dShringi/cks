@@ -55,8 +55,6 @@ Kubelet Config -- https://kubernetes.io/docs/reference/config-api/kubelet-config
 RuntimeClaas -- https://kubernetes.io/docs/concepts/containers/runtime-class/  
 Admission Controllers -- https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/  
 automountServiceAccountToken -- https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/  
-Pod Volumes -- https://kubernetes.io/docs/concepts/storage/volumes/  
-PV PVC -- https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/  
 Ingress -- https://kubernetes.io/docs/concepts/services-networking/ingress/  
 
 ## Kubernetes Components
@@ -109,6 +107,11 @@ Kubectl important commands
     images=("rancher/alpine-git:1.0.4" "nginx:1.19" "nginx:1.17" "nginx:1.20" "gcr.io/google-containers/nginx" "bitnami/jenkins:2.414.3")
     for image in ${images[@]}; do trivy image ${image} --severity CRITICAL -q | grep Total; done
 
+    k config view -o jsonpath="{.contexts[*].name}" | tr " " "\n" # new lines
+
+    grep -i "something" -A3 -B3
+    journalctl -u falco -S -30s
+
 Crictl
 
     crictl ps -id 7a5ea6a080d1 [Get pod id from container id, used in falco where journalctl logs gives container id]
@@ -118,3 +121,16 @@ Crictl
     crictl pods -id 7a864406b9794
     POD ID              ...          NAME                             NAMESPACE        ...
     7a864406b9794       ...          webapi-6cfddcd6f4-ftxg4          team-blue        ...
+
+    crictl inspect <container-id> | grep args -A1
+        "args": [
+          "./collector1-process"
+
+    ➜ root@cluster1-node1:~# ps aux | grep collector1-process
+    root       35039  0.0  0.1 702208  1044 ?        Ssl  13:37   0:00 ./collector1-process
+    root       35059  0.0  0.1 702208  1044 ?        Ssl  13:37   0:00 ./collector1-process
+
+    ➜ root@cluster1-node1:~# strace -p 35039
+    strace: Process 35039 attached
+    futex(0x4d7e68, FUTEX_WAIT_PRIVATE, 0, NULL) = 0
+    kill(666, SIGTERM)                      = -1 ESRCH (No such process)
